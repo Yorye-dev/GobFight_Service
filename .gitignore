@@ -1,0 +1,42 @@
+# Archivos y carpetas de Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+**/mvnw
+**/mvnw.cmd
+
+# Archivos de compilación y dependencias
+*.class
+*.jar
+*.war
+*.ear
+
+# Configuraciones del entorno IDE (IntelliJ, Eclipse, NetBeans, etc.)
+.idea/
+*.iml
+*.project
+*.classpath
+*.settings/
+.vscode/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de logs y backups
+*.log
+*.bak
+*.swp
+*~
+
+# Archivos específicos del entorno Linux
+*.out
+*.swo
+*.swn
+
+# Archivos temporales generados por Maven
+dependency-reduced-pom.xml
+release.properties
+
+# Archivos y carpetas relacionadas con pruebas
+test-output/
+
