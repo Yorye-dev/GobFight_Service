@@ -1,4 +1,4 @@
-package dev.yorye.gobfight_backend.controllers;
+package dev.yorye.gobfight_backend.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

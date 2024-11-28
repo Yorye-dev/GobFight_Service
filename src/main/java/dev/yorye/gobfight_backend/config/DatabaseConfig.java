@@ -1,4 +1,4 @@
-package dev.yorye.gobfight_backend.configs;
+package dev.yorye.gobfight_backend.config;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
