@@ -39,4 +39,5 @@ release.properties
 
 # Archivos y carpetas relacionadas con pruebas
 test-output/
+docu/
 

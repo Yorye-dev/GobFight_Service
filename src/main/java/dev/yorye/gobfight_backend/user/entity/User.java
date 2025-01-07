@@ -1,4 +1,4 @@
-package dev.yorye.gobfight_backend.entity;
+package dev.yorye.gobfight_backend.user.entity;
 
 import jakarta.persistence.*;
 
@@ -14,5 +14,5 @@ public class User {
     private String username;
 
     @Column(name = "user_password", nullable = false)
-    private String password;
+    private String password; // Hashed
 }
