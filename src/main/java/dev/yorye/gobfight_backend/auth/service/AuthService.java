@@ -9,8 +9,6 @@ public interface AuthService {
 
     //Inyectar el servicio de User
 
-    public TokenResponse register(RegisterRequest request) {
-        // LLamar a los servicios del paquete Usuario
-        //UserService.registerUser(UserDTO)
-    }
+    TokenResponse register(RegisterRequest request);
+
 }
