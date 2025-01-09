@@ -1,9 +1,11 @@
 package dev.yorye.gobfight_backend.user.service;
 
 import dev.yorye.gobfight_backend.user.dto.UserDto;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService{
     @Override
     public UserDto getUserById(Long id) {

@@ -2,6 +2,8 @@ package dev.yorye.gobfight_backend.auth.controller;
 
 import dev.yorye.gobfight_backend.auth.dto.RegisterRequest;
 import dev.yorye.gobfight_backend.auth.dto.TokenResponse;
+import dev.yorye.gobfight_backend.auth.service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,10 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+    @Autowired
+    private AuthService authService;
 
     @PostMapping("/regiter")
     public ResponseEntity<TokenResponse> register(@RequestBody final RegisterRequest request) {
-        final TokenResponse token = new TokenResponse(); // llamar al servicio orquestador
+
+        TokenResponse token = authService.register(request);
+
         return ResponseEntity.ok(token);
     }
 
