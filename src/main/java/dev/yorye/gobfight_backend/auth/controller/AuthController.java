@@ -19,7 +19,6 @@ public class AuthController {
     }
 
     //@PostMapping("/login")
-    //
 
     //@PostMapping("/logout") Creo que no es necesario porque si se borra el Token desde el forntal la sesion se pierde
 
