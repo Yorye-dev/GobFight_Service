@@ -41,3 +41,5 @@ release.properties
 test-output/
 docu/
 
+src/main/resources/application.properties
+src/main/resources/application.yml
