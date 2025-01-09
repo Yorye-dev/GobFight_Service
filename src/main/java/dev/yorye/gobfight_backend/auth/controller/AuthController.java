@@ -24,8 +24,7 @@ public class AuthController {
         return ResponseEntity.ok(token);
     }
 
-    //@PostMapping("/login")
-
+    //@PostMapping("/login") commit test
     //@PostMapping("/logout") Creo que no es necesario porque si se borra el Token desde el forntal la sesion se pierde
 
     //@PostMapping("/refresh/token")
