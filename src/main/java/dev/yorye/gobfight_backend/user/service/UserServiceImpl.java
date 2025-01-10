@@ -1,12 +1,18 @@
 package dev.yorye.gobfight_backend.user.service;
 
 import dev.yorye.gobfight_backend.user.dto.UserDto;
-import org.springframework.stereotype.Service;
+import dev.yorye.gobfight_backend.user.entity.User;
+import dev.yorye.gobfight_backend.user.mapper.UserMapper;
 
 import java.util.List;
 
-@Service
 public class UserServiceImpl implements UserService{
+
+    @Override
+    public void createNewUser(UserDto userDto) {
+        var user = UserMapper.toUser(userDto);
+    }
+
     @Override
     public UserDto getUserById(Long id) {
         return null;
@@ -15,11 +21,6 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<UserDto> getAllUsers() {
         return List.of();
-    }
-
-    @Override
-    public void createNewUser(UserDto user) {
-
     }
 
     @Override
