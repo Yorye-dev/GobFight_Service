@@ -2,10 +2,10 @@ package dev.yorye.gobfight_backend.auth.service;
 
 import dev.yorye.gobfight_backend.user.dto.UserDto;
 
-public interface JwtServise {
+public interface JwtService {
     String generateToken(final UserDto user);
 
-    boolean vaidateToken(final String token);
+    boolean validateToken(final String token);
 
     String refreshToken(final String token);
 

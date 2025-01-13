@@ -5,16 +5,17 @@ import dev.yorye.gobfight_backend.auth.dto.TokenResponse;
 import dev.yorye.gobfight_backend.user.dto.UserDto;
 import dev.yorye.gobfight_backend.user.mapper.UserMapper;
 import dev.yorye.gobfight_backend.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImp implements AuthService{
-    @Autowired
-    private JwtServise jwtService;
-    private PasswordEncoder passwordEncoder;
-    private UserService userService;
+
+    private final JwtService jwtService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
     @Override
     public TokenResponse register(RegisterRequest request) {
@@ -30,5 +31,4 @@ public class AuthServiceImp implements AuthService{
         //TODO
        // Es necesario el persistir el token?.
     }
-
 }
