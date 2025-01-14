@@ -6,6 +6,7 @@ import dev.yorye.gobfight_backend.user.mapper.UserMapper;
 import dev.yorye.gobfight_backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,7 +17,7 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
 
-    //@Transactional
+    @Transactional
     @Override
     public void createNewUser(UserDto userDto) {
         var user = UserMapper.toUser(userDto);
@@ -42,6 +43,12 @@ public class UserServiceImpl implements UserService{
     @Override
     public void deleteUser(Long id) {
 
+    }
+
+    @Override
+    public UserDto getUserByNickname(String nickname) {
+        userRepository.findByNickname(nickname);
+        return null; // TODO
     }
 
     private void saveUser(User user) {

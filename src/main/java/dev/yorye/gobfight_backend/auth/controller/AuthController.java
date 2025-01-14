@@ -1,5 +1,6 @@
 package dev.yorye.gobfight_backend.auth.controller;
 
+import dev.yorye.gobfight_backend.auth.dto.LoginRequest;
 import dev.yorye.gobfight_backend.auth.dto.RegisterRequest;
 import dev.yorye.gobfight_backend.auth.dto.TokenResponse;
 import dev.yorye.gobfight_backend.auth.service.AuthService;
@@ -24,7 +25,14 @@ public class AuthController {
         return ResponseEntity.ok(token);
     }
 
-    //@PostMapping("/login") commit test
+    @PostMapping("/login")
+    public ResponseEntity<TokenResponse> login(@RequestBody final LoginRequest request) {
+
+        TokenResponse token = authService.login(request);
+
+        return ResponseEntity.ok(token);
+    }
+
     //@PostMapping("/logout") Creo que no es necesario porque si se borra el Token desde el forntal la sesion se pierde
 
     //@PostMapping("/refresh/token")

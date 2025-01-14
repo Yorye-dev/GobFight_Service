@@ -1,5 +1,6 @@
 package dev.yorye.gobfight_backend.auth.service;
 
+import dev.yorye.gobfight_backend.auth.dto.LoginRequest;
 import dev.yorye.gobfight_backend.auth.dto.RegisterRequest;
 import dev.yorye.gobfight_backend.auth.dto.TokenResponse;
 import dev.yorye.gobfight_backend.user.dto.UserDto;
@@ -29,6 +30,25 @@ public class AuthServiceImp implements AuthService{
 
         return new TokenResponse(jwtToken, jwtToken);
         //TODO
-       // Es necesario el persistir el token?.
+       // Es necesario el persistir el token
+        // 1. T
+
+    }
+
+    @Override
+    public TokenResponse login(LoginRequest request) {
+        //TODO
+        /*
+        1 Verificar si el usuario existe en la base de datos // userService.getUserByNickname(request.nickname());
+        2 Verificar si la contraseña es correcta // isPasswordCorrect(request.password(), userDto.password());
+        3 Verificar si el usuario tiene un token activo
+        4 Si tiene un token activo utilizar ese token
+        4 En caso contrario generar un nuevo token
+         */
+        return null;
+    }
+
+    private boolean isPasswordCorrect(String password, String hashedPassword){
+        return passwordEncoder.matches(password, hashedPassword);
     }
 }

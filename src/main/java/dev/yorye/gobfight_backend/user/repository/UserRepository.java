@@ -16,4 +16,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     long countByNickname(String nombre);
 
     void deleteByNickname(String nombre);
+
+    void getUserByNickname(String nickname);
 }

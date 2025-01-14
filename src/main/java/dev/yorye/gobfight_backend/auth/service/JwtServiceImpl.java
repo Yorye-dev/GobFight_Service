@@ -1,5 +1,6 @@
 package dev.yorye.gobfight_backend.auth.service;
 
+import dev.yorye.gobfight_backend.auth.entity.Token;
 import dev.yorye.gobfight_backend.user.dto.UserDto;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -42,6 +43,11 @@ public class JwtServiceImpl implements JwtService {
         return null;
     }
 
+    @Override
+    public boolean isTokenExpired(String token) {
+        return false;
+    }
+
     private String buildToken(final UserDto userDto) {
         return Jwts.builder()
                 .setSubject(userDto.nickname())
@@ -54,5 +60,9 @@ public class JwtServiceImpl implements JwtService {
     private SecretKey getSecretKey() {
         byte[] secretBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(secretBytes);
+    }
+
+    private void saveToken(final Token token) {
+        // Implementar lógica para persistir el token si es necesario
     }
 }

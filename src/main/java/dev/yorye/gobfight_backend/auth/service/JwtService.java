@@ -11,4 +11,5 @@ public interface JwtService {
 
     UserDto getUserFromToken(final String token);
 
+    boolean isTokenExpired(final String token);
 }
