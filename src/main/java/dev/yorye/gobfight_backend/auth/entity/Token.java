@@ -53,4 +53,7 @@ public class Token {
         this.ipAddress = ipAddress;
         this.userAgent = userAgent;
     }
+
+    public Token(String token, LocalDateTime localDateTime, LocalDateTime localDateTime1, boolean active) {
+    }
 }
