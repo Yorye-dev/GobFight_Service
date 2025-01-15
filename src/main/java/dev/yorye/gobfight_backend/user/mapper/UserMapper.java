@@ -4,6 +4,9 @@ import dev.yorye.gobfight_backend.auth.dto.RegisterRequest;
 import dev.yorye.gobfight_backend.user.dto.UserDto;
 import dev.yorye.gobfight_backend.user.entity.User;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class UserMapper {
 
     private UserMapper() {
@@ -23,5 +26,19 @@ public class UserMapper {
                 userDto.email(),
                 userDto.hashedPassword()
         );
+    }
+
+    public static UserDto toUserDto(User user) {
+        return new UserDto(
+                user.getNickname(),
+                user.getEmail(),
+                user.getPassword()
+        );
+    }
+
+    public static List<UserDto> UsersListToUserDtosList(List<User> users) {
+        return users.stream()
+                .map(UserMapper::toUserDto)
+                .collect(Collectors.toList());
     }
 }

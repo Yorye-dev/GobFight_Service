@@ -1,10 +1,12 @@
 package dev.yorye.gobfight_backend.user.service;
 
+import ch.qos.logback.core.boolex.Matcher;
 import dev.yorye.gobfight_backend.user.dto.UserDto;
 import dev.yorye.gobfight_backend.user.entity.User;
 import dev.yorye.gobfight_backend.user.mapper.UserMapper;
 import dev.yorye.gobfight_backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     @Override
@@ -44,15 +47,26 @@ public class UserServiceImpl implements UserService{
     public void deleteUser(Long id) {
 
     }
+    @Override
+    public UserDto validateUser(String nickname, String password) {
+        UserDto userDto = getUsersByNickname(nickname);
+        if (!isPasswordCorrect(password, userDto.hashedPassword())) {
+            return null;
+        }
+        return userDto;
+    }
 
     @Override
-    public UserDto getUserByNickname(String nickname) {
-        userRepository.findByNickname(nickname);
-        return null; // TODO
+    public UserDto getUsersByNickname(String nickname) {
+        return UserMapper.toUserDto(userRepository.findByNickname(nickname));
     }
 
     private void saveUser(User user) {
         user.setUpdatedAt(LocalDateTime.now());
         userRepository.save(user);
+    }
+
+    private boolean isPasswordCorrect(String password, String hashedPassword){
+        return passwordEncoder.matches(password, hashedPassword);
     }
 }
