@@ -14,6 +14,7 @@ public class UserMapper {
 
     public static UserDto toUserDto(RegisterRequest request, String hashedPassword) {
         return new UserDto(
+                null,
                 request.nickname(),
                 request.email(),
                 hashedPassword
@@ -30,6 +31,7 @@ public class UserMapper {
 
     public static UserDto toUserDto(User user) {
         return new UserDto(
+                user.getId(),
                 user.getNickname(),
                 user.getEmail(),
                 user.getPassword()

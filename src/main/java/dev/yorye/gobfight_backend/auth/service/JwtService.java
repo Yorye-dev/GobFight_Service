@@ -5,7 +5,7 @@ import dev.yorye.gobfight_backend.user.dto.UserDto;
 public interface JwtService {
     String generateToken(final UserDto user);
 
-    boolean validateToken(final String token);
+    boolean isValidateToken(final String token, UserDto user);
 
     String refreshToken(final String token);
 

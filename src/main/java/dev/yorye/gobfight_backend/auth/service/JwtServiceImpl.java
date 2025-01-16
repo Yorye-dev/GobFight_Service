@@ -2,6 +2,7 @@ package dev.yorye.gobfight_backend.auth.service;
 
 import dev.yorye.gobfight_backend.auth.entity.Token;
 import dev.yorye.gobfight_backend.user.dto.UserDto;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.Jwts;
@@ -26,9 +27,11 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public boolean validateToken(final String token) {
-        // Implementar validación del token si es necesario
-        return false;
+    public boolean isValidateToken(final String token, UserDto user) {
+        // TODO: Implementar lógica para validar el token
+        String extractedNicknameFromToken = extractNicknameFromToken(token);
+
+        return extractedNicknameFromToken.equals(user.nickname());
     }
 
     @Override
@@ -64,5 +67,25 @@ public class JwtServiceImpl implements JwtService {
 
     private void saveToken(final Token token) {
         // Implementar lógica para persistir el token si es necesario
+    }
+
+    private String extractTokenFromHeader(final String header) {
+        // Implementar lógica para extraer el token del header
+        return "";
+    }
+
+    private String extractNicknameFromToken(final String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(secretKey.getBytes())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            return claims.get("nickname", String.class);
+        } catch (Exception e) {
+
+            throw new RuntimeException("Error al procesar el token: " + e.getMessage());
+        }
     }
 }

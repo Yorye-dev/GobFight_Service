@@ -51,14 +51,16 @@ public class UserServiceImpl implements UserService{
     public UserDto validateUser(String nickname, String password) {
         UserDto userDto = getUsersByNickname(nickname);
         if (!isPasswordCorrect(password, userDto.hashedPassword())) {
-            return null;
+            throw new RuntimeException("Invalid credentials");
         }
         return userDto;
     }
 
     @Override
     public UserDto getUsersByNickname(String nickname) {
-        return UserMapper.toUserDto(userRepository.findByNickname(nickname));
+        UserDto userDto =  UserMapper.toUserDto(userRepository.findByNickname(nickname)
+                .orElseThrow(() -> new RuntimeException("Invalid credentials")));
+        return userDto;
     }
 
     private void saveUser(User user) {

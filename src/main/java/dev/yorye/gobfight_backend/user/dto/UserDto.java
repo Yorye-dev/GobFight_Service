@@ -1,6 +1,7 @@
 package dev.yorye.gobfight_backend.user.dto;
 
 public record UserDto(
+        Long Id,
         String nickname,
         String email,
         String hashedPassword) {

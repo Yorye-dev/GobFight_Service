@@ -38,6 +38,11 @@ public class AuthServiceImp implements AuthService{
     @Override
     public TokenResponse login(LoginRequest request) {
 
+        final UserDto userDto = userService.validateUser(request.nickname(), request.password());
+
+        var jwtToken = jwtService.generateToken(userDto);
+
+        return new TokenResponse(jwtToken, jwtToken);
         //TODO
         /*
         1 Verificar si el usuario existe en la base de datos // userService.getUserByNickname(request.nickname());
@@ -46,7 +51,6 @@ public class AuthServiceImp implements AuthService{
         4 Si tiene un token activo utilizar ese token
         4 En caso contrario generar un nuevo token
          */
-        return null;
     }
 
     private boolean isPasswordCorrect(String password, String hashedPassword){
