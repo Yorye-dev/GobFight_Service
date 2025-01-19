@@ -27,11 +27,13 @@ public class AuthServiceImp implements AuthService{
         userService.createNewUser(userDto); // Persisntecia del suario en base de datos
 
         var jwtToken = jwtService.generateToken(userDto);
+        var refreshToken = jwtService.generateRefreshToken(userDto);
 
-        return new TokenResponse(jwtToken, jwtToken);
-        //TODO
+        return new TokenResponse(jwtToken, refreshToken);
+        //TODO Implementar la lógica para el registro
        // Es necesario el persistir el token
-        // 1. T
+        // 1. Persistir el token
+        // 2. Persistir el token de refresco
 
     }
 
@@ -42,14 +44,17 @@ public class AuthServiceImp implements AuthService{
 
         var jwtToken = jwtService.generateToken(userDto);
 
-        return new TokenResponse(jwtToken, jwtToken);
-        //TODO
+        var refreshToken = jwtService.generateRefreshToken(userDto);
+
+        return new TokenResponse(jwtToken, refreshToken);
         /*
-        1 Verificar si el usuario existe en la base de datos // userService.getUserByNickname(request.nickname());
-        2 Verificar si la contraseña es correcta // isPasswordCorrect(request.password(), userDto.password());
+        TODO Implementar la lógica para el login
         3 Verificar si el usuario tiene un token activo
         4 Si tiene un token activo utilizar ese token
         4 En caso contrario generar un nuevo token
+        5 Generar un token de refresco
+        6 Persistir el token
+        7 Persistir el token de refresco
          */
     }
 

@@ -7,9 +7,16 @@ public interface JwtService {
 
     boolean isValidateToken(final String token, UserDto user);
 
-    String refreshToken(final String token);
+    String generateRefreshToken(final UserDto user);
 
-    UserDto getUserFromToken(final String token);
+    String generateRefreshToken(final String token);
+
+    UserDto getUserDtoFromToken(final String token);
 
     boolean isTokenExpired(final String token);
+
+    void deleteToken(final String token);
+
+
+
 }
