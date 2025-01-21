@@ -27,7 +27,7 @@ public class Token {
     private User user;
 
     @Column(name = "token_refresh_token", nullable = false, length = 512)
-    private String refreshToken;
+    private String token;
 
     @Column(name = "token_created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -46,7 +46,7 @@ public class Token {
 
     public Token(User user, String refreshToken, LocalDateTime expiresAt, String ipAddress, String userAgent) {
         this.user = user;
-        this.refreshToken = refreshToken;
+        this.token = refreshToken;
         this.createdAt = LocalDateTime.now();
         this.expiresAt = expiresAt;
         this.revoked = false;

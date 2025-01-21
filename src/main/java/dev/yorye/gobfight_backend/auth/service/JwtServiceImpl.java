@@ -1,8 +1,10 @@
 package dev.yorye.gobfight_backend.auth.service;
 
+import dev.yorye.gobfight_backend.auth.dto.TokenDto;
 import dev.yorye.gobfight_backend.auth.entity.Token;
 import dev.yorye.gobfight_backend.auth.repository.TokenRepository;
 import dev.yorye.gobfight_backend.user.dto.UserDto;
+import dev.yorye.gobfight_backend.user.mapper.UserMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -28,7 +31,10 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String generateToken(final UserDto userDto) {
-        return buildToken(userDto);
+        String tokenString = buildToken(userDto);
+
+
+        return tokenString;
     }
 
     @Override
@@ -72,6 +78,7 @@ public class JwtServiceImpl implements JwtService {
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSecretKey())
                 .compact();
+
     }
 
     private String buildRefreshToken(final UserDto userDto) {
@@ -101,6 +108,19 @@ public class JwtServiceImpl implements JwtService {
 
             throw new RuntimeException("Error al procesar el token: " + e.getMessage());
         }
+    }
+
+    private void persistToken(final String token , final UserDto userDto){ {
+        TokenDto tokenDto = TokenDto.builder()
+                .user(UserMapper.toUser(userDto))
+                .token(token)
+                .createdAt(LocalDateTime.now())
+                .expiresAt(LocalDateTime.now().plusHours(2)) // Ejemplo: Expira en 2 horas
+                .revoked(false) // Token activo
+                .ipAddress("127.0.0.1") // Ejemplo: Cambia esto por datos reales si son necesarios
+                .userAgent("Default User Agent") // Ejemplo: Cambia esto por el User-Agent real
+                .build();
+
     }
 
     private void saveToken(final Token token) {
