@@ -1,6 +1,7 @@
 package dev.yorye.gobfight_backend.auth.entity;
 
 
+import dev.yorye.gobfight_backend.auth.constants.TokenType;
 import dev.yorye.gobfight_backend.user.entity.User;
 
 import jakarta.persistence.*;
@@ -22,11 +23,11 @@ public class Token {
     @Column(name = "token_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "token_refresh_token", nullable = false, length = 512)
+    @Column(name = "token_string", nullable = false, length = 512)
     private String token;
 
     @Column(name = "token_created_at", nullable = false)
@@ -38,22 +39,15 @@ public class Token {
     @Column(name = "token_revoked", nullable = false)
     private boolean revoked;
 
-    @Column(name = "token_ip_address", length = 45)
-    private String ipAddress;
+    @Column(name = "token_type", nullable = false)
+    private TokenType type;
 
-    @Column(name = "token_user_agent", length = 255)
-    private String userAgent;
-
-    public Token(User user, String refreshToken, LocalDateTime expiresAt, String ipAddress, String userAgent) {
+    public Token(User user, String refreshToken, LocalDateTime expiresAt, TokenType type) {
         this.user = user;
         this.token = refreshToken;
         this.createdAt = LocalDateTime.now();
         this.expiresAt = expiresAt;
         this.revoked = false;
-        this.ipAddress = ipAddress;
-        this.userAgent = userAgent;
-    }
-
-    public Token(String token, LocalDateTime localDateTime, LocalDateTime localDateTime1, boolean active) {
+        this.type = type;
     }
 }

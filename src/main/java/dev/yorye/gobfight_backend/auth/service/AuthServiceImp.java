@@ -24,7 +24,9 @@ public class AuthServiceImp implements AuthService{
         String hashedPassword = passwordEncoder.encode(request.password());
         UserDto userDto = UserMapper.toUserDto(request,hashedPassword);
 
-        userService.createNewUser(userDto); // Persisntecia del suario en base de datos
+        userDto = userService.createNewUser(userDto); // Persisntecia del suario en base de datos
+
+        System.out.println("Persisted User ID: " + userDto);
 
         var jwtToken = jwtService.generateToken(userDto);
         var refreshToken = jwtService.generateRefreshToken(userDto);

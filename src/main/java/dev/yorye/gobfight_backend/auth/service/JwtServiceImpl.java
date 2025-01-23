@@ -1,7 +1,9 @@
 package dev.yorye.gobfight_backend.auth.service;
 
+import dev.yorye.gobfight_backend.auth.constants.TokenType;
 import dev.yorye.gobfight_backend.auth.dto.TokenDto;
 import dev.yorye.gobfight_backend.auth.entity.Token;
+import dev.yorye.gobfight_backend.auth.mapper.TokenMapper;
 import dev.yorye.gobfight_backend.auth.repository.TokenRepository;
 import dev.yorye.gobfight_backend.user.dto.UserDto;
 import dev.yorye.gobfight_backend.user.mapper.UserMapper;
@@ -9,19 +11,20 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.Jwts;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.crypto.SecretKey;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class JwtServiceImpl implements JwtService {
 
-    TokenRepository tokenRepository;
+    private final TokenRepository tokenRepository;
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -29,11 +32,12 @@ public class JwtServiceImpl implements JwtService {
     @Value("${jwt.expiration}")
     private long expiration;
 
+    @Transactional
     @Override
     public String generateToken(final UserDto userDto) {
+
         String tokenString = buildToken(userDto);
-
-
+        persistToken(tokenString, userDto, TokenType.ACCESS);
         return tokenString;
     }
 
@@ -44,9 +48,12 @@ public class JwtServiceImpl implements JwtService {
         return extractedNicknameFromToken.equals(user.nickname());
     }
 
+    @Transactional
     @Override
-    public String generateRefreshToken(UserDto user) {
-        return buildRefreshToken(user);
+    public String generateRefreshToken(UserDto userDto) {
+        String refreshToken = buildToken(userDto); // Puedes ajustar la expiración aquí
+        persistToken(refreshToken, userDto, TokenType.REFRESH);
+        return refreshToken;
     }
 
     @Override
@@ -71,24 +78,16 @@ public class JwtServiceImpl implements JwtService {
 
     }
 
-    private String buildToken(final UserDto userDto) {
+    private String buildToken(UserDto userDto) {
         return Jwts.builder()
                 .setSubject(userDto.nickname())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSecretKey())
                 .compact();
-
     }
 
-    private String buildRefreshToken(final UserDto userDto) {
-        return buildToken(userDto);
-    }
 
-    private SecretKey getSecretKey() {
-        byte[] secretBytes = Decoders.BASE64.decode(secretKey);
-        return Keys.hmacShaKeyFor(secretBytes);
-    }
 
     private String extractTokenFromHeader(final String header) {
         // Implementar lógica para extraer el token del header
@@ -110,20 +109,22 @@ public class JwtServiceImpl implements JwtService {
         }
     }
 
-    private void persistToken(final String token , final UserDto userDto){ {
-        TokenDto tokenDto = TokenDto.builder()
-                .user(UserMapper.toUser(userDto))
+    private SecretKey getSecretKey() {
+        byte[] secretBytes = Decoders.BASE64.decode(secretKey);
+        return Keys.hmacShaKeyFor(secretBytes);
+    }
+
+    private void persistToken(String token, UserDto userDto, TokenType type) {
+        var tokenEntity = TokenMapper.toToken(TokenDto.builder()
                 .token(token)
+                .user(UserMapper.toUser(userDto))
+                .type(type)
                 .createdAt(LocalDateTime.now())
-                .expiresAt(LocalDateTime.now().plusHours(2)) // Ejemplo: Expira en 2 horas
-                .revoked(false) // Token activo
-                .ipAddress("127.0.0.1") // Ejemplo: Cambia esto por datos reales si son necesarios
-                .userAgent("Default User Agent") // Ejemplo: Cambia esto por el User-Agent real
-                .build();
+                .expiresAt(LocalDateTime.now().plusMinutes(expiration / 60000))
+                .revoked(false)
+                .build());
 
+        tokenRepository.save(tokenEntity);
     }
 
-    private void saveToken(final Token token) {
-        tokenRepository.save(token);
-    }
 }

@@ -8,7 +8,7 @@ public interface UserService {
 
     UserDto getUserById(Long id);
     List<UserDto> getAllUsers();
-    void createNewUser(UserDto userDto);
+    UserDto createNewUser(UserDto userDto);
     void updateUser(Long id, UserDto userDto);
     void deleteUser(Long id);
     UserDto validateUser(String nickname, String password);

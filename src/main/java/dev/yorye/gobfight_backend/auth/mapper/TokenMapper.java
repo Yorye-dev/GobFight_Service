@@ -13,8 +13,7 @@ public class TokenMapper {
                 tokenDto.createdAt(),
                 tokenDto.expiresAt(),
                 tokenDto.revoked(),
-                tokenDto.ipAddress(),
-                tokenDto.userAgent()
+                tokenDto.type()
         );
     }
 
@@ -26,8 +25,7 @@ public class TokenMapper {
                 .createdAt(token.getCreatedAt())
                 .expiresAt(token.getExpiresAt())
                 .revoked(token.isRevoked())
-                .ipAddress(token.getIpAddress())
-                .userAgent(token.getUserAgent())
+                .type(token.getType())
                 .build();
     }
 }

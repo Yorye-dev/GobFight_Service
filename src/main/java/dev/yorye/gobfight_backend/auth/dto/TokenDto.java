@@ -1,5 +1,6 @@
 package dev.yorye.gobfight_backend.auth.dto;
 
+import dev.yorye.gobfight_backend.auth.constants.TokenType;
 import dev.yorye.gobfight_backend.user.entity.User;
 import lombok.Builder;
 import java.util.Objects;
@@ -14,8 +15,7 @@ public record TokenDto(
         LocalDateTime createdAt,
         LocalDateTime expiresAt,
         boolean revoked,
-        String ipAddress,
-        String userAgent) {
+        TokenType type) {
 
     @Override
     public boolean equals(Object o) {
@@ -28,13 +28,12 @@ public record TokenDto(
                 this.token.equals(tokenDto.token) &&
                 this.createdAt.equals(tokenDto.createdAt) &&
                 this.expiresAt.equals(tokenDto.expiresAt) &&
-                Objects.equals(ipAddress, tokenDto.ipAddress) &&
-                Objects.equals(userAgent, tokenDto.userAgent);
+                this.type.equals(tokenDto.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, token, createdAt, expiresAt, revoked, ipAddress, userAgent);
+        return Objects.hash(id, user, token, createdAt, expiresAt, revoked, type);
     }
 
 }
