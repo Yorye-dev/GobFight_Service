@@ -6,7 +6,9 @@ import dev.yorye.gobfight_backend.auth.entity.Token;
 import dev.yorye.gobfight_backend.auth.mapper.TokenMapper;
 import dev.yorye.gobfight_backend.auth.repository.TokenRepository;
 import dev.yorye.gobfight_backend.user.dto.UserDto;
+import dev.yorye.gobfight_backend.user.entity.User;
 import dev.yorye.gobfight_backend.user.mapper.UserMapper;
+import dev.yorye.gobfight_backend.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -37,7 +39,7 @@ public class JwtServiceImpl implements JwtService {
     public String generateToken(final UserDto userDto) {
 
         String tokenString = buildToken(userDto);
-        persistToken(tokenString, userDto, TokenType.ACCESS);
+        persistToken(tokenString, userDto.id(), TokenType.ACCESS);
         return tokenString;
     }
 
@@ -52,7 +54,7 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String generateRefreshToken(UserDto userDto) {
         String refreshToken = buildToken(userDto); // Puedes ajustar la expiración aquí
-        persistToken(refreshToken, userDto, TokenType.REFRESH);
+        persistToken(refreshToken, userDto.id(), TokenType.REFRESH);
         return refreshToken;
     }
 
@@ -114,11 +116,12 @@ public class JwtServiceImpl implements JwtService {
         return Keys.hmacShaKeyFor(secretBytes);
     }
 
-    private void persistToken(String token, UserDto userDto, TokenType type) {
+    private void persistToken(String token, Long userId, TokenType type) {
+
         var tokenEntity = TokenMapper.toToken(TokenDto.builder()
                 .token(token)
-                .user(UserMapper.toUser(userDto))
-                .type(type)
+                .userId(userId)
+                .type(type.name())
                 .createdAt(LocalDateTime.now())
                 .expiresAt(LocalDateTime.now().plusMinutes(expiration / 60000))
                 .revoked(false)

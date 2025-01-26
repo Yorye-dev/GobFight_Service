@@ -2,7 +2,6 @@ package dev.yorye.gobfight_backend.auth.entity;
 
 
 import dev.yorye.gobfight_backend.auth.constants.TokenType;
-import dev.yorye.gobfight_backend.user.entity.User;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,9 +22,8 @@ public class Token {
     @Column(name = "token_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Long userId;
 
     @Column(name = "token_string", nullable = false, length = 512)
     private String token;
@@ -40,10 +38,10 @@ public class Token {
     private boolean revoked;
 
     @Column(name = "token_type", nullable = false)
-    private TokenType type;
+    private String type;
 
-    public Token(User user, String refreshToken, LocalDateTime expiresAt, TokenType type) {
-        this.user = user;
+    public Token(Long userId, String refreshToken, LocalDateTime expiresAt, String type) {
+        this.userId = userId;
         this.token = refreshToken;
         this.createdAt = LocalDateTime.now();
         this.expiresAt = expiresAt;

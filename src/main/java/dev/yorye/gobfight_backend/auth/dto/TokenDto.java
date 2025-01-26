@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 @Builder
 public record TokenDto(
         Long id,
-        User user,
+        Long userId,
         String token,
         LocalDateTime createdAt,
         LocalDateTime expiresAt,
         boolean revoked,
-        TokenType type) {
+        String type) {
 
     @Override
     public boolean equals(Object o) {
@@ -24,7 +24,7 @@ public record TokenDto(
         TokenDto tokenDto = (TokenDto) o;
         return revoked == tokenDto.revoked &&
                 this.id.equals(tokenDto.id) &&
-                this.user.equals(tokenDto.user) &&
+                this.userId.equals(tokenDto.userId) &&
                 this.token.equals(tokenDto.token) &&
                 this.createdAt.equals(tokenDto.createdAt) &&
                 this.expiresAt.equals(tokenDto.expiresAt) &&
@@ -33,7 +33,7 @@ public record TokenDto(
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, token, createdAt, expiresAt, revoked, type);
+        return Objects.hash(id, userId, token, createdAt, expiresAt, revoked, type);
     }
 
 }

@@ -13,9 +13,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
 
-    long countByNickname(String nombre);
+    Long getIdByNickname(String nickname);
 
-    void deleteByNickname(String nombre);
+    //long countByNickname(String nombre);
 
-    void getUserByNickname(String nickname);
+    //void deleteByNickname(String nombre);
+
+    //void getUserByNickname(String nickname);
 }

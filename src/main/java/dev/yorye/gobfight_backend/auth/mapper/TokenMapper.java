@@ -8,7 +8,7 @@ public class TokenMapper {
     public static Token toToken(TokenDto tokenDto){
         return new Token (
                 tokenDto.id(),
-                tokenDto.user(),
+                tokenDto.userId(),
                 tokenDto.token(),
                 tokenDto.createdAt(),
                 tokenDto.expiresAt(),
@@ -20,7 +20,7 @@ public class TokenMapper {
     public static TokenDto toDto(Token token) {
         return TokenDto.builder()
                 .id(token.getId())
-                .user(token.getUser())
+                .userId(token.getUserId())
                 .token(token.getToken())
                 .createdAt(token.getCreatedAt())
                 .expiresAt(token.getExpiresAt())

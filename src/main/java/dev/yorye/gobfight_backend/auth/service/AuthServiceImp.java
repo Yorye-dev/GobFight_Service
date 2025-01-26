@@ -24,19 +24,12 @@ public class AuthServiceImp implements AuthService{
         String hashedPassword = passwordEncoder.encode(request.password());
         UserDto userDto = UserMapper.toUserDto(request,hashedPassword);
 
-        userDto = userService.createNewUser(userDto); // Persisntecia del suario en base de datos
-
-        System.out.println("Persisted User ID: " + userDto);
+        userDto = userService.createNewUser(userDto);
 
         var jwtToken = jwtService.generateToken(userDto);
         var refreshToken = jwtService.generateRefreshToken(userDto);
 
         return new TokenResponse(jwtToken, refreshToken);
-        //TODO Implementar la lógica para el registro
-       // Es necesario el persistir el token
-        // 1. Persistir el token
-        // 2. Persistir el token de refresco
-
     }
 
     @Override
