@@ -42,15 +42,6 @@ public class AuthServiceImp implements AuthService{
         var refreshToken = jwtService.generateRefreshToken(userDto);
 
         return new TokenResponse(jwtToken, refreshToken);
-        /*
-        TODO Implementar la lógica para el login
-        3 Verificar si el usuario tiene un token activo
-        4 Si tiene un token activo utilizar ese token
-        4 En caso contrario generar un nuevo token
-        5 Generar un token de refresco
-        6 Persistir el token
-        7 Persistir el token de refresco
-         */
     }
 
     private boolean isPasswordCorrect(String password, String hashedPassword){
