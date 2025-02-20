@@ -21,6 +21,8 @@ public class AuthServiceImp implements AuthService{
     @Override
     public TokenResponse register(RegisterRequest request) {
 
+        // TODO: Agregar validacion de usaurio y manejo de excepciones.
+
         String hashedPassword = passwordEncoder.encode(request.password());
         UserDto userDto = UserMapper.toUserDto(request,hashedPassword);
 

@@ -74,6 +74,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean existsByUsername(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
+
+    @Override
     public UserDto getUsersByNickname(String nickname) {
         return userRepository.findByNickname(nickname)
                 .map(UserMapper::toUserDto)

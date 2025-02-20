@@ -12,5 +12,5 @@ public interface UserService {
     void updateUser(Long id, UserDto userDto);
     void deleteUser(Long id);
     UserDto validateUser(String nickname, String password);
-    UserDto getUsersByNickname(String nickname);
+    boolean existsByUsername(String nickname);
 }
