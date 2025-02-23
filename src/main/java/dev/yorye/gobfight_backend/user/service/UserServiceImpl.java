@@ -73,9 +73,10 @@ public class UserServiceImpl implements UserService {
         return UserMapper.toUserDto(user);
     }
 
+    /*
     @Override
     public boolean existsByUsername(String nickname) {
-        return userRepository.existsByNickname(nickname);
+        return userRepository.getIdByNickname(nickname);
     }
 
     @Override
@@ -84,4 +85,5 @@ public class UserServiceImpl implements UserService {
                 .map(UserMapper::toUserDto)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     }
+     */
 }
